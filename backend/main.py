@@ -64,6 +64,7 @@ def load_csv_endpoint():
 
 @app.get("/census")
 def read_item():
+    # set up session, query data, format data into dict so returns as json to frontend
     session = SessionLocal()
     census_data = session.query(CensusModel).all()
     result = [{"age": item.age, "education_level": item.education_level, "race": item.race, "sex": item.sex, "over_50k": item.over_50k, "over_50k_text": item.over_50k_text, "count": item.count} for item in census_data]
@@ -72,4 +73,38 @@ def read_item():
 
 @app.get("/summary-stats")
 def get_summary_stats():
-    return {}
+    # pull data from db
+    session = SessionLocal()
+    census_data = session.query(CensusModel).all()
+    session.close()
+
+    # takes data from CensusModel objects and returns attributes as dict, converts dict into pandas dataframe
+    df = pd.DataFrame([data.__dict__ for data in census_data])
+
+    # age stats
+    age_stats = df['age'].describe().to_dict()
+
+    iqr = age_stats['75%'] - age_stats['25%']
+    lowerOutlier = age_stats['25%'] - 1.5*iqr
+    upperOutlier = age_stats['75%'] + 1.5*iqr
+    outliers = df[(df['age'] < lowerOutlier) | (df['age'] > upperOutlier)]['age'].unique().tolist()
+    age_stats['outliers'] = sorted(outliers)
+
+    # education level stats
+    education_group = df.groupby('education_level').apply(lambda x: x['over_50k'].sum() / x['count'].sum()).reset_index()
+    education_stats = education_group.rename(columns={0: 'over_50k'}).to_dict('records')
+
+    # race stats
+    race_group = df.groupby('race').apply(lambda x: x['over_50k'].sum() / x['count'].sum()).reset_index()
+    race_stats = race_group.rename(columns={0: 'over_50k'}).to_dict('records')
+
+    # education level stats
+    sex_group = df.groupby('sex').apply(lambda x: x['over_50k'].sum() / x['count'].sum()).reset_index()
+    sex_stats = sex_group.rename(columns={0: 'over_50k'}).to_dict('records')
+
+    return {
+        "age": age_stats,
+        "education_level": education_stats,
+        "race": race_stats,
+        "sex": sex_stats
+    }
