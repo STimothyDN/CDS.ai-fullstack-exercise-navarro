@@ -1,0 +1,92 @@
+{
+    "age": {
+        "25%": 28,
+        "50%": 37,
+        "75%": 48,
+        "count": 48842,
+        "max": 90,
+        "mean": 38.64358543876172,
+        "min": 17,
+        "std": 13.710509934443555,
+        "outliers": [
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90
+        ]
+    },
+    "education_level": [
+        {
+            "education_level": "Associates",
+            "over_50k": 0.2553249590387766
+        },
+        {
+            "education_level": "Bachelors",
+            "over_50k": 0.41283489096573206
+        },
+        {
+            "education_level": "Did not complete high school",
+            "over_50k": 0.05711610486891386
+        },
+        {
+            "education_level": "Doctorate",
+            "over_50k": 0.7255892255892256
+        },
+        {
+            "education_level": "High school",
+            "over_50k": 0.15857830714647744
+        },
+        {
+            "education_level": "Masters",
+            "over_50k": 0.5491155438464433
+        },
+        {
+            "education_level": "Professional school",
+            "over_50k": 0.7398081534772182
+        },
+        {
+            "education_level": "Some college",
+            "over_50k": 0.18964883250597536
+        }
+    ],
+    "race": [
+        {
+            "over_50k": 0.11702127659574468,
+            "race": "Amer-Indian-Eskimo"
+        },
+        {
+            "over_50k": 0.26925608953258723,
+            "race": "Asian-Pac-Islander"
+        },
+        {
+            "over_50k": 0.1208110992529349,
+            "race": "Black"
+        },
+        {
+            "over_50k": 0.12315270935960591,
+            "race": "Other"
+        },
+        {
+            "over_50k": 0.2539868780230832,
+            "race": "White"
+        }
+    ],
+    "sex": [
+        {
+            "over_50k": 0.10925148221343874,
+            "sex": "Female"
+        },
+        {
+            "over_50k": 0.3037672281776417,
+            "sex": "Male"
+        }
+    ]
+}
