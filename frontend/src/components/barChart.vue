@@ -2,6 +2,11 @@
 import { ref, onMounted } from 'vue'
 import { Chart } from 'chart.js/auto'
 
+// function to format strings into a more display friendly format
+function formatString(category){
+  return category.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}
+
 // defining a prop on the component
 // this allows us to get the censusData object transmitted down
 // from our parent, App.vue
@@ -27,8 +32,9 @@ const chartCanvas = ref(null)
 onMounted(() => {
   // get the categories from the data
   const categories = props.censusData.reduce((acc, datum) => {
-    if (!acc.includes(datum[props.category])) {
-      acc.push(datum[props.category])
+    const formattedString = formatString(datum[props.category]);
+    if (!acc.includes(formattedString)) {
+      acc.push(formattedString)
     }
     return acc
   }, [])
@@ -38,7 +44,7 @@ onMounted(() => {
   // dataset definition here
   // https://www.chartjs.org/docs/latest/charts/bar.html
   const dataset = {
-    label: props.category,
+    label: formatString(props.category),
     data: categories.map((category) => {
       return props.censusData.filter((datum) => datum[props.category] === category).length
     })
@@ -60,7 +66,7 @@ onMounted(() => {
 </script>
 <template>
   <div>
-    <h5 class="display-7 text-center">Census Data By {{ props.category }}</h5>
+    <h5 class="display-7 text-center">Census Data By {{ formatString(props.category) }}</h5>
     <canvas id="barChartHolder" ref="chartCanvas"></canvas>
   </div>
 </template>
