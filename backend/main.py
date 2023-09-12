@@ -57,6 +57,7 @@ def load_csv_to_db():
     session.commit()
     session.close()
 
+# have NOT tested if running this multiple times duplicates data, please only run this endpoint once for now
 @app.get("/load-csv")
 def load_csv_endpoint():
     load_csv_to_db()
